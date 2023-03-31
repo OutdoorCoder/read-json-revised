@@ -1,4 +1,4 @@
-module github.com/OutdoorCoder/read-json-revised
+module read-json-revised
 
 go 1.20
 

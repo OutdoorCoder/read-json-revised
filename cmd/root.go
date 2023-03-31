@@ -24,7 +24,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var cfgFile, output, jsonObjectFile string
+var goRoutines int
+var maxMemory int64
+var inputFiles *[]string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -55,6 +58,11 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.revised-json-reader.yaml)")
+	rootCmd.PersistentFlags().Int64Var(&maxMemory, "max-memory", 10000, "The maximum amount of memory the tool is allowed to use while reading from the file")
+	rootCmd.PersistentFlags().IntVar(&goRoutines, "go-routines", 5, "The number of go routines to use for reading")
+	inputFiles = rootCmd.PersistentFlags().StringSlice("input-file(s)", []string{}, "The list of files to read from")
+	rootCmd.PersistentFlags().StringVar(&output, "output", "stdout", "The output stream")
+	rootCmd.PersistentFlags().StringVar(&jsonObjectFile, "json-object-file", "", "The file name of the JSON object that is stored in the input files")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
